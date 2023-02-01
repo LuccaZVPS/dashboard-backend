@@ -1,5 +1,5 @@
 import { Contoller } from "../../protocols/controller";
-import { Data, Context } from "../../protocols/controller";
+import { Context } from "../../protocols/controller";
 import { CreateClientDTO } from "./DTOs/create-client";
 import { DTOValidator } from "../../protocols/DTO-validator";
 import { UserInputError } from "apollo-server-core";
@@ -32,5 +32,6 @@ export class CreateClientController implements Contoller {
     }
 
     const client = await this.createClient.create(createClientDTO);
+    return client;
   }
 }

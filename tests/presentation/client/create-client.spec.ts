@@ -79,4 +79,23 @@ describe("CreateClientController", () => {
       await sut.handle("", { data: { name: "test" } }, { userId: "" });
     }).rejects.toThrow();
   });
+  test("should throw if createClient method throws", async () => {
+    const { sut } = makeSut();
+    const client = await sut.handle(
+      "",
+      { data: { name: "test" } },
+      { userId: "" }
+    );
+    expect(client).toEqual({
+      _id: "id",
+      name: "any_name",
+      email: "any_email",
+      instagram: "any_instagram",
+      observations: "any_observations",
+      aquisitions: "any_aquisitions",
+      indication: "any_indication",
+      addres: "any_adress",
+      number: "any_number",
+    });
+  });
 });
