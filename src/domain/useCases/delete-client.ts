@@ -1,3 +1,3 @@
 export interface DeleteClient {
-  delete: () => Promise<boolean>;
+  delete: (_id: string) => Promise<boolean>;
 }
