@@ -70,4 +70,13 @@ describe("CreateClientController", () => {
     await sut.handle("", { data: { name: "test" } }, { userId: "" });
     expect(spy).toHaveBeenCalledWith({ name: "test" });
   });
+  test("should throw if createClient method throws", async () => {
+    const { sut, createClientStub } = makeSut();
+    jest.spyOn(createClientStub, "create").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    expect(async () => {
+      await sut.handle("", { data: { name: "test" } }, { userId: "" });
+    }).rejects.toThrow();
+  });
 });
