@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface Architect extends Document {
+export interface Architect {
   name: string;
   email: string;
   address: string;
