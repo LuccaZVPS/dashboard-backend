@@ -1,9 +1,9 @@
 export class Contoller {
-  handle: (_: any, data: Data, context: context) => Promise<any>;
+  handle: (_: any, data: Data, context: Context) => Promise<any>;
 }
-interface Data {
+export interface Data {
   data: any;
 }
-interface context {
+export interface Context {
   userId: string;
 }
