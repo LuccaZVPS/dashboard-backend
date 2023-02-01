@@ -1,4 +1,6 @@
-export interface Architect {
+import { Document } from "mongoose";
+
+export interface Architect extends Document {
   name: string;
   email: string;
   address: string;
@@ -8,4 +10,5 @@ export interface Architect {
   sampleDate: string;
   catalog: string;
   bankInfo: string;
+  _id: string;
 }

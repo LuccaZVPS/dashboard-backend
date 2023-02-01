@@ -1,4 +1,6 @@
-export interface Client {
+import { Document } from "mongoose";
+
+export interface Client extends Document {
   name: string;
   email: string;
   addres: string;
@@ -7,4 +9,5 @@ export interface Client {
   indication: string;
   aquisitions: string;
   observations: string;
+  _id: string;
 }
