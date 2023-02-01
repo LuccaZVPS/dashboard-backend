@@ -21,5 +21,6 @@ export class DeleteClientController implements Contoller {
     if (validate.errors) {
       throw new UserInputError(validate.errors);
     }
+    const isDeleted = this.deleteClient.delete(deleteClientDTO._id);
   }
 }

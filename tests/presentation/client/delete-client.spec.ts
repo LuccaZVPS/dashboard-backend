@@ -44,4 +44,10 @@ describe("DeleteClientController", () => {
       await sut.handle("", { data: { _id: "" } }, { userId: "valid_id" });
     }).rejects.toThrow();
   });
+  test("should call deleteClient method with correct values", async () => {
+    const { sut, deleteClientStub } = makeSut();
+    const spy = jest.spyOn(deleteClientStub, "delete");
+    await sut.handle("", { data: { _id: "valid_id" } }, { userId: "valid_id" });
+    expect(spy).toHaveBeenCalledWith("valid_id");
+  });
 });
