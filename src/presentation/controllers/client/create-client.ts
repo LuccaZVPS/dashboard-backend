@@ -18,7 +18,9 @@ export class CreateClient implements Contoller {
       "observations",
     ];
     for (let field of fields) {
-      createClientDTO[field] = data[field];
+      if (data[field]) {
+        createClientDTO[field] = data[field];
+      }
     }
     const validate = await this.validator.validate(createClientDTO);
     if (validate.errors) {

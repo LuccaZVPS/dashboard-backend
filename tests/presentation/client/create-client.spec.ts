@@ -17,6 +17,12 @@ describe("CreateClientController", () => {
       sut: new CreateClient(validatorStub),
     };
   };
+  test("should call validate with correct value", async () => {
+    const { sut, validatorStub } = makeSut();
+    const validate = jest.spyOn(validatorStub, "validate");
+    await sut.handle("", { data: { name: "test" } }, { userId: "" });
+    expect(validate).toHaveBeenCalledWith({ name: "test" });
+  });
   test("should throw input error if validator return an error", async () => {
     const { sut, validatorStub } = makeSut();
     jest.spyOn(validatorStub, "validate").mockImplementationOnce(async () => {
