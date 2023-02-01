@@ -1,4 +1,4 @@
-import { AuthenticationError } from "apollo-server-core";
+import { AuthenticationError, UserInputError } from "apollo-server-core";
 import { Client } from "../../../src/domain/client";
 import { CreateClient } from "../../../src/domain/useCases/create-client";
 import { CreateClientController } from "../../../src/presentation/controllers/client/create-client";
@@ -61,7 +61,7 @@ describe("CreateClientController", () => {
     });
     expect(async () => {
       await sut.handle("", { data: {} }, { userId: "valid_id" });
-    }).rejects.toThrow();
+    }).rejects.toThrow(new UserInputError("Missing name propertie"));
   });
   test("should throw input error if validator throws", async () => {
     const { sut, validatorStub } = makeSut();
