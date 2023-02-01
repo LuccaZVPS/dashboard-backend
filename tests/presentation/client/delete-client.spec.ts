@@ -35,7 +35,7 @@ describe("DeleteClientController", () => {
       await sut.handle("", { data: "" }, { userId: "" });
     }).rejects.toThrow(new AuthenticationError("must be logged in"));
   });
-  test("should throw bad user input error if no client id is provided", () => {
+  test("should throw bad user input if validator returns an error", () => {
     const { sut, validator } = makeSut();
     jest.spyOn(validator, "validate").mockImplementationOnce(async () => {
       return { errors: "Any_error" };
@@ -67,5 +67,14 @@ describe("DeleteClientController", () => {
       { userId: "valid_id" }
     );
     expect(response).toBe(false);
+  });
+  test("should throw if deleteClient method throws", () => {
+    const { sut, deleteClientStub } = makeSut();
+    jest.spyOn(deleteClientStub, "delete").mockImplementationOnce(async () => {
+      throw new Error();
+    });
+    expect(async () => {
+      await sut.handle("", { data: { _id: "id" } }, { userId: "valid_id" });
+    }).rejects.toThrow();
   });
 });
