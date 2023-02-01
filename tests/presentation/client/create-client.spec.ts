@@ -1,3 +1,4 @@
+import { AuthenticationError } from "apollo-server-core";
 import { Client } from "../../../src/domain/client";
 import { CreateClient } from "../../../src/domain/useCases/create-client";
 import { CreateClientController } from "../../../src/presentation/controllers/client/create-client";
@@ -40,10 +41,17 @@ describe("CreateClientController", () => {
       sut: new CreateClientController(validatorStub, createClientStub),
     };
   };
+  test("should throw auth error with no userId is provided", async () => {
+    const { sut } = makeSut();
+    expect(async () => {
+      await sut.handle("", { data: { name: "test" } }, { userId: null });
+    }).rejects.toThrow(new AuthenticationError("must be logged in"));
+  });
+
   test("should call validate with correct value", async () => {
     const { sut, validatorStub } = makeSut();
     const validate = jest.spyOn(validatorStub, "validate");
-    await sut.handle("", { data: { name: "test" } }, { userId: "" });
+    await sut.handle("", { data: { name: "test" } }, { userId: "valid_id" });
     expect(validate).toHaveBeenCalledWith({ name: "test" });
   });
   test("should throw input error if validator return an error", async () => {
@@ -52,7 +60,7 @@ describe("CreateClientController", () => {
       return { errors: "Missing name propertie" };
     });
     expect(async () => {
-      await sut.handle("", { data: {} }, { userId: "14" });
+      await sut.handle("", { data: {} }, { userId: "valid_id" });
     }).rejects.toThrow();
   });
   test("should throw input error if validator throws", async () => {
@@ -61,13 +69,13 @@ describe("CreateClientController", () => {
       throw new Error();
     });
     expect(async () => {
-      await sut.handle("", { data: {} }, { userId: "14" });
+      await sut.handle("", { data: {} }, { userId: "valid_id" });
     }).rejects.toThrow();
   });
   test("should call createClient method with correct values", async () => {
     const { sut, createClientStub } = makeSut();
     const spy = jest.spyOn(createClientStub, "create");
-    await sut.handle("", { data: { name: "test" } }, { userId: "" });
+    await sut.handle("", { data: { name: "test" } }, { userId: "valid_id" });
     expect(spy).toHaveBeenCalledWith({ name: "test" });
   });
   test("should throw if createClient method throws", async () => {
@@ -76,7 +84,7 @@ describe("CreateClientController", () => {
       throw new Error();
     });
     expect(async () => {
-      await sut.handle("", { data: { name: "test" } }, { userId: "" });
+      await sut.handle("", { data: { name: "test" } }, { userId: "valid_id" });
     }).rejects.toThrow();
   });
   test("should throw if createClient method throws", async () => {
@@ -84,7 +92,7 @@ describe("CreateClientController", () => {
     const client = await sut.handle(
       "",
       { data: { name: "test" } },
-      { userId: "" }
+      { userId: "valid_id" }
     );
     expect(client).toEqual({
       _id: "id",
