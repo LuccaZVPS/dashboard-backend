@@ -37,6 +37,16 @@ describe("GetClientsController", () => {
       await sut.handle("", { data: "" }, { userId: null });
     }).rejects.toThrow(new AuthenticationError("must be logged in"));
   });
+  test("should throw if getClients method throws", async () => {
+    const { sut, getClientsStub } = makeSut();
+    jest.spyOn(getClientsStub, "get").mockImplementationOnce(() => {
+      throw new Error("");
+    });
+
+    expect(async () => {
+      await sut.handle("", { data: "" }, { userId: "valid_id" });
+    }).rejects.toThrow();
+  });
 
   test("should return an array of clients", async () => {
     const { sut } = makeSut();
