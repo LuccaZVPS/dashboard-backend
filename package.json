@@ -11,5 +11,9 @@
   "license": "ISC",
   "devDependencies": {
     "git-commit-msg-linter": "^4.5.0"
+  },
+  "dependencies": {
+    "apollo-server": "^3.11.1",
+    "graphql": "^16.6.0"
   }
 }
