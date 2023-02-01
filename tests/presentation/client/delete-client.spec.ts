@@ -42,7 +42,7 @@ describe("DeleteClientController", () => {
     });
     expect(async () => {
       await sut.handle("", { data: { _id: "" } }, { userId: "valid_id" });
-    }).rejects.toThrow();
+    }).rejects.toThrow(new UserInputError("Any_error"));
   });
   test("should call deleteClient method with correct values", async () => {
     const { sut, deleteClientStub } = makeSut();
