@@ -64,4 +64,12 @@ describe("Client repository", () => {
       await sut.get();
     }).rejects.toThrow(new Error());
   });
+  test("delete method should delete a client ", async () => {
+    const { sut } = makeSut();
+    const clientToDelete = await clientModel.create(DTOMock);
+    const isDeleted = await sut.delete(clientToDelete._id as unknown as string);
+    expect(isDeleted).toBe(true);
+    const clients = await sut.get();
+    expect(clients.length).toBe(0);
+  });
 });
