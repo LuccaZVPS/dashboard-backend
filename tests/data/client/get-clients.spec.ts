@@ -36,4 +36,13 @@ describe("Get clients use case", () => {
     const clients = await sut.get();
     expect(clients).toEqual(clientListMock);
   });
+  test("should throws if getClientsRepository throws", async () => {
+    const { sut, getClientsRepositoryStub } = makeSut();
+    jest.spyOn(getClientsRepositoryStub, "get").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    expect(async () => {
+      await sut.get();
+    }).rejects.toThrow();
+  });
 });
