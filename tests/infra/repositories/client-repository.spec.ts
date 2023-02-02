@@ -46,7 +46,7 @@ describe("Client repository", () => {
     }).rejects.toThrow(new Error());
   });
 
-  test("get method should list all clients ", async () => {
+  test("get method should list all clients", async () => {
     const { sut } = makeSut();
     await clientModel.create(DTOMock);
     await clientModel.create(DTOMock);
@@ -64,12 +64,31 @@ describe("Client repository", () => {
       await sut.get();
     }).rejects.toThrow(new Error());
   });
-  test("delete method should delete a client ", async () => {
+  test("delete method should delete a client", async () => {
     const { sut } = makeSut();
     const clientToDelete = await clientModel.create(DTOMock);
     const isDeleted = await sut.delete(clientToDelete._id as unknown as string);
     expect(isDeleted).toBe(true);
     const clients = await sut.get();
     expect(clients.length).toBe(0);
+  });
+  test("update method should update a client", async () => {
+    const { sut } = makeSut();
+    const clientToUpdate = await clientModel.create(DTOMock);
+    const updatedClient = await sut.update({
+      ...DTOMock,
+      name: "Lucca",
+      _id: clientToUpdate._id.toString(),
+    });
+    expect(updatedClient.name).toBe("Lucca");
+  });
+  test("update method should throws if mongo throws", async () => {
+    const { sut } = makeSut();
+    jest.spyOn(clientModel, "findOneAndUpdate").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    expect(async () => {
+      await sut.update({ ...DTOMock, _id: "any_id" });
+    }).rejects.toThrow(new Error());
   });
 });
