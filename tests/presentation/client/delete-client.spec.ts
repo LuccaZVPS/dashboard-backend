@@ -1,7 +1,6 @@
 import { AuthenticationError, UserInputError } from "apollo-server-core";
 import { DeleteClient } from "../../../src/domain/useCases/delete-client";
 import { DeleteClientController } from "../../../src/presentation/controllers/client/delete-client";
-import { DTOValidator } from "../../../src/presentation/protocols/DTO-validator";
 
 describe("DeleteClientController", () => {
   const makeValidatorStub = () => {
@@ -14,8 +13,8 @@ describe("DeleteClientController", () => {
   };
   const makeDeleteClientStub = () => {
     class DeleteClientStub implements DeleteClient {
-      async delete(): Promise<boolean> {
-        return true;
+      async delete(): Promise<void> {
+        return;
       }
     }
     return new DeleteClientStub();
@@ -50,24 +49,7 @@ describe("DeleteClientController", () => {
     await sut.handle("", { data: { _id: "valid_id" } }, { userId: "valid_id" });
     expect(spy).toHaveBeenCalledWith("valid_id");
   });
-  test("should return the same value of deleteClient method", async () => {
-    const { sut, deleteClientStub } = makeSut();
-    var response = await sut.handle(
-      "",
-      { data: { _id: "valid_id" } },
-      { userId: "valid_id" }
-    );
-    expect(response).toBe(true);
-    jest.spyOn(deleteClientStub, "delete").mockImplementationOnce(async () => {
-      return false;
-    });
-    response = await sut.handle(
-      "",
-      { data: { _id: "valid_id" } },
-      { userId: "valid_id" }
-    );
-    expect(response).toBe(false);
-  });
+
   test("should throw if deleteClient method throws", () => {
     const { sut, deleteClientStub } = makeSut();
     jest.spyOn(deleteClientStub, "delete").mockImplementationOnce(async () => {
