@@ -28,7 +28,7 @@ describe("UpdateClientController", () => {
 
   const makeUpdateClientStub = () => {
     class UpdateClientStub implements UpdateClient {
-      async update(createClientDTO: UpdateClientDTO): Promise<Client> {
+      async update(updateClientDTO: UpdateClientDTO): Promise<Client> {
         return {
           _id: "id",
           name: "any_name",
@@ -94,5 +94,21 @@ describe("UpdateClientController", () => {
     const data = { data: { name: "Lucca" } };
     await sut.handle("", data, { userId: "valid_id" });
     expect(spy).toHaveBeenCalledWith({ name: "Lucca" });
+  });
+  test("should return the same of update method", async () => {
+    const { sut } = makeSut();
+    const data = { data: { name: "Lucca" } };
+    const updatedClient = await sut.handle("", data, { userId: "valid_id" });
+    expect(updatedClient).toEqual({
+      _id: "id",
+      name: "any_name",
+      email: "any_email",
+      instagram: "any_instagram",
+      observations: "any_observations",
+      aquisitions: "any_aquisitions",
+      indication: "any_indication",
+      addres: "any_adress",
+      number: "any_number",
+    });
   });
 });
