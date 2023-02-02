@@ -3,7 +3,7 @@ import { FindClient } from "../../../domain/useCases/find-client";
 import { UpdateClient } from "../../../domain/useCases/update-client";
 import { Context, Contoller, Data } from "../../protocols/controller";
 import { DTOValidator } from "../../protocols/DTO-validator";
-import { CreateClientDTO } from "./DTOs/create-client";
+import { UpdateClientDTO } from "./DTOs/update-client";
 
 export class UpdateClientController implements Contoller {
   constructor(
@@ -15,7 +15,7 @@ export class UpdateClientController implements Contoller {
     if (!userId) {
       throw new AuthenticationError("must be logged in");
     }
-    const createClientDTO = new CreateClientDTO();
+    const updateClientDTO = new UpdateClientDTO();
     const fields = [
       "name",
       "email",
@@ -25,15 +25,21 @@ export class UpdateClientController implements Contoller {
       "indication",
       "aquisitions",
       "observations",
+      "_id",
     ];
     for (let field of fields) {
       if (data[field]) {
-        createClientDTO[field] = data[field];
+        updateClientDTO[field] = data[field];
       }
     }
-    const validate = await this.validator.validate(createClientDTO);
+    const validate = await this.validator.validate(updateClientDTO);
     if (validate.errors) {
       throw new UserInputError(validate.errors);
     }
+    const clientExist = await this.findClient.find(updateClientDTO._id);
+    if (!clientExist?._id) {
+      throw new UserInputError("client not found");
+    }
+    const updatedUser = this.updateClient.update({ ...updateClientDTO });
   }
 }

@@ -2,14 +2,14 @@ import { AuthenticationError, UserInputError } from "apollo-server-core";
 import { Client } from "../../../src/domain/client";
 import { FindClient } from "../../../src/domain/useCases/find-client";
 import { UpdateClient } from "../../../src/domain/useCases/update-client";
-import { CreateClientDTO } from "../../../src/presentation/controllers/client/DTOs/create-client";
+import { UpdateClientDTO } from "../../../src/presentation/controllers/client/DTOs/update-client";
 import { UpdateClientController } from "../../../src/presentation/controllers/client/update-client";
 import { DTOValidator } from "../../../src/presentation/protocols/DTO-validator";
 
 describe("UpdateClientController", () => {
   const makeFindClientStub = () => {
     class FindClientStub implements FindClient {
-      async find(): Promise<Client | undefined> {
+      async find(): Promise<undefined | Client> {
         return {
           _id: "id",
           name: "any_name",
@@ -28,7 +28,7 @@ describe("UpdateClientController", () => {
 
   const makeUpdateClientStub = () => {
     class UpdateClientStub implements UpdateClient {
-      async update(createClientDTO: CreateClientDTO): Promise<Client> {
+      async update(createClientDTO: UpdateClientDTO): Promise<Client> {
         return {
           _id: "id",
           name: "any_name",
@@ -78,5 +78,21 @@ describe("UpdateClientController", () => {
     expect(async () => {
       await sut.handle("", { data: "" }, { userId: "any_id" });
     }).rejects.toThrow(new UserInputError("any_error"));
+  });
+  test("should throw userInputError if no client exist with provided id ", () => {
+    const { sut, findClient } = makeSut();
+    jest.spyOn(findClient, "find").mockImplementationOnce(async () => {
+      return {} as Client;
+    });
+    expect(async () => {
+      await sut.handle("", { data: "" }, { userId: "any_id" });
+    }).rejects.toThrow(new UserInputError("client not found"));
+  });
+  test("should call update method with correct values", async () => {
+    const { sut, updateClient } = makeSut();
+    const spy = jest.spyOn(updateClient, "update");
+    const data = { data: { name: "Lucca" } };
+    await sut.handle("", data, { userId: "valid_id" });
+    expect(spy).toHaveBeenCalledWith({ name: "Lucca" });
   });
 });
