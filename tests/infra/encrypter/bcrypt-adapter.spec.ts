@@ -22,7 +22,7 @@ describe("BcryptAdapter", () => {
     const response = await sut.compare("any", "any");
     expect(response).toBe(true);
   });
-  test("should return fale if compare method returns false", async () => {
+  test("should return false if compare method returns false", async () => {
     const { sut } = makeSut();
     jest.spyOn(bcrypt, "compareSync").mockImplementationOnce(() => {
       return false;
