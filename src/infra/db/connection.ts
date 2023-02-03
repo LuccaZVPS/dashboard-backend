@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 export const mongoHelper = {
-  connect: (url: string) => {
-    mongoose.connect(url);
+  connect: async (url: string) => {
+    await mongoose.connect(url);
   },
-  close: () => {
-    mongoose.connection.close();
+  close: async () => {
+    await mongoose.connection.close();
   },
 };
