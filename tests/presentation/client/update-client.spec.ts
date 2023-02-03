@@ -9,7 +9,7 @@ import { DTOValidator } from "../../../src/presentation/protocols/DTO-validator"
 describe("UpdateClientController", () => {
   const makeFindClientStub = () => {
     class FindClientStub implements FindClient {
-      async find(): Promise<undefined | Client> {
+      async find(): Promise<void | Client> {
         return {
           _id: "id",
           name: "any_name",
@@ -82,7 +82,7 @@ describe("UpdateClientController", () => {
   test("should throw userInputError if no client exist with provided id ", () => {
     const { sut, findClient } = makeSut();
     jest.spyOn(findClient, "find").mockImplementationOnce(async () => {
-      return {} as Client;
+      return;
     });
     expect(async () => {
       await sut.handle("", { data: "" }, { userId: "any_id" });

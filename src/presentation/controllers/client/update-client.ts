@@ -37,7 +37,7 @@ export class UpdateClientController implements Contoller {
       throw new UserInputError(validate.errors);
     }
     const clientExist = await this.findClient.find(updateClientDTO._id);
-    if (!clientExist?._id) {
+    if (!clientExist) {
       throw new UserInputError("client not found");
     }
     const updatedClient = this.updateClient.update({ ...updateClientDTO });
