@@ -6,8 +6,8 @@ import { Account } from "../../../src/domain/account";
 describe("Find Account use case", () => {
   const makeBcryptAdapter = () => {
     class DecryptStub implements DecryptHash {
-      async decrypt(string: string): Promise<string> {
-        return "correct_password";
+      async compare(string: string): Promise<boolean> {
+        return true;
       }
     }
     return new DecryptStub();
@@ -53,14 +53,17 @@ describe("Find Account use case", () => {
     const response = await sut.find("any_username", "any_password");
     expect(response).toBeFalsy();
   });
-  test("should call decrypt method with correct value", async () => {
+  test("should call compare method with correct value", async () => {
     const { sut, bcryptAdapter } = makeSut();
-    const spy = jest.spyOn(bcryptAdapter, "decrypt");
+    const spy = jest.spyOn(bcryptAdapter, "compare");
     await sut.find("any_username", "any_password");
-    expect(spy).toHaveBeenCalledWith("any_hashed_password");
+    expect(spy).toHaveBeenCalledWith("any_password", "any_hashed_password");
   });
-  test("should return void if passwords do not match", async () => {
-    const { sut } = makeSut();
+  test("should return void if compare method returns false", async () => {
+    const { sut, bcryptAdapter } = makeSut();
+    jest.spyOn(bcryptAdapter, "compare").mockImplementationOnce(async () => {
+      return false;
+    });
     const response = await sut.find("any_username", "wrong_password");
     expect(response).toBeFalsy();
   });
