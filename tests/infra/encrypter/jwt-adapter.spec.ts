@@ -1,4 +1,4 @@
-import { jwt, JWTAdapter } from "../../../src/infra/encrypter/create-JWT";
+import { jwt, JWTAdapter } from "../../../src/infra/encrypter/jwt";
 import { config } from "dotenv";
 config();
 describe("JWT adapter", () => {
