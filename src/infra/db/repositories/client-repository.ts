@@ -1,5 +1,6 @@
 import { CreateClientRepository } from "../../../data/protocols/client/create-client-repository";
 import { DeleteClientRepository } from "../../../data/protocols/client/delete-client-repository";
+import { FindClientRepository } from "../../../data/protocols/client/find-client-repository";
 import { GetClientsRepository } from "../../../data/protocols/client/get-clients-repository";
 import { UpdateClientRepository } from "../../../data/protocols/client/update-client-repository";
 import { Client } from "../../../domain/client";
@@ -12,7 +13,8 @@ export class ClientRepository
     CreateClientRepository,
     GetClientsRepository,
     DeleteClientRepository,
-    UpdateClientRepository
+    UpdateClientRepository,
+    FindClientRepository
 {
   async create(DTO: CreateClientDTO): Promise<Client> {
     const client = await clientModel.create({
