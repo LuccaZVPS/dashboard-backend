@@ -1,6 +1,6 @@
 export interface DTOValidator {
   validate: (classModel: any) => Promise<error>;
 }
-interface error {
+export interface error {
   errors: string;
 }
