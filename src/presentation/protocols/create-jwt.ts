@@ -1,3 +1,3 @@
 export interface CreateJwt {
-  encrypt: () => Promise<string>;
+  encrypt: (_id: string) => Promise<string>;
 }
