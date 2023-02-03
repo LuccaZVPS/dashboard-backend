@@ -47,4 +47,10 @@ export class ClientRepository
     );
     return updatedClient as unknown as Client;
   }
+  async find(_id: String): Promise<Client | void> {
+    const client = await clientModel.findOne({ _id });
+    if (client) {
+      return client as unknown as Client;
+    }
+  }
 }
