@@ -1,4 +1,5 @@
 import { config } from "dotenv";
+import { Client } from "../../../src/domain/client";
 import { mongoHelper } from "../../../src/infra/db/connection";
 import { ClientRepository } from "../../../src/infra/db/repositories/client-repository";
 import { clientModel } from "../../../src/infra/db/schemas/client.schema";
@@ -90,5 +91,22 @@ describe("Client repository", () => {
     expect(async () => {
       await sut.update({ ...DTOMock, _id: "any_id" });
     }).rejects.toThrow(new Error());
+  });
+  test("find method should find return an client if exist ", async () => {
+    const { sut } = makeSut();
+    const clientToFind = await clientModel.create(DTOMock);
+    const client = (await sut.find(
+      clientToFind._id.toString()
+    )) as unknown as Client;
+    expect(client._id.toString()).toBe(clientToFind._id.toString());
+  });
+  test("find method should return void if no client exist", async () => {
+    const { sut } = makeSut();
+    const clientToFind = await clientModel.create(DTOMock);
+    await clientModel.deleteMany();
+    const client = (await sut.find(
+      clientToFind._id.toString()
+    )) as unknown as Client;
+    expect(client).toBeFalsy();
   });
 });
