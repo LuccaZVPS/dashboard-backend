@@ -1,5 +1,5 @@
 import { Account } from "../../../domain/account";
 
-export interface findAccountRepository {
+export interface FindAccountRepository {
   find: (_id: string) => Promise<Account>;
 }
