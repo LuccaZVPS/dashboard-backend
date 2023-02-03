@@ -1,4 +1,4 @@
-import { DeleteClient as DeleteClientType } from "../../../domain/useCases/delete-client";
+import { DeleteClient as DeleteClientType } from "../../../domain/useCases/client/delete-client";
 import { DeleteClientRepository } from "../../protocols/client/delete-client-repository";
 export class DeleteClient implements DeleteClientType {
   constructor(

@@ -1,5 +1,5 @@
 import { AuthenticationError, UserInputError } from "apollo-server-core";
-import { DeleteClient } from "../../../domain/useCases/delete-client";
+import { DeleteClient } from "../../../domain/useCases/client/delete-client";
 import { Context, Contoller, Data } from "../../protocols/controller";
 import { DTOValidator } from "../../protocols/DTO-validator";
 import { DeleteClientDTO } from "./DTOs/delete-client";

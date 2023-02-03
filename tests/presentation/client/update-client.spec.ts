@@ -1,7 +1,7 @@
 import { AuthenticationError, UserInputError } from "apollo-server-core";
 import { Client } from "../../../src/domain/client";
-import { FindClient } from "../../../src/domain/useCases/find-client";
-import { UpdateClient } from "../../../src/domain/useCases/update-client";
+import { FindClient } from "../../../src/domain/useCases/client/find-client";
+import { UpdateClient } from "../../../src/domain/useCases/client/update-client";
 import { UpdateClientDTO } from "../../../src/presentation/controllers/client/DTOs/update-client";
 import { UpdateClientController } from "../../../src/presentation/controllers/client/update-client";
 import { DTOValidator } from "../../../src/presentation/protocols/DTO-validator";

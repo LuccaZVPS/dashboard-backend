@@ -1,6 +1,6 @@
 import { AuthenticationError } from "apollo-server-core";
 import { Client } from "../../../src/domain/client";
-import { GetClients } from "../../../src/domain/useCases/get-clients";
+import { GetClients } from "../../../src/domain/useCases/client/get-clients";
 import { GetClientsController } from "../../../src/presentation/controllers/client/get-clients";
 
 describe("GetClientsController", () => {

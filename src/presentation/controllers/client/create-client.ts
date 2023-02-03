@@ -3,7 +3,7 @@ import { Context } from "../../protocols/controller";
 import { CreateClientDTO } from "./DTOs/create-client";
 import { DTOValidator } from "../../protocols/DTO-validator";
 import { AuthenticationError, UserInputError } from "apollo-server-core";
-import { CreateClient } from "../../../domain/useCases/create-client";
+import { CreateClient } from "../../../domain/useCases/client/create-client";
 export class CreateClientController implements Contoller {
   constructor(
     private readonly validator: DTOValidator,

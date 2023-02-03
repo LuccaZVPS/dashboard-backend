@@ -1,5 +1,5 @@
 import { Client } from "../../../domain/client";
-import { FindClient as FindClientType } from "../../../domain/useCases/find-client";
+import { FindClient as FindClientType } from "../../../domain/useCases/client/find-client";
 import { FindClientRepository } from "../../protocols/client/find-client-repository";
 export class FindClient implements FindClientType {
   constructor(private readonly findClientRepository: FindClientRepository) {}

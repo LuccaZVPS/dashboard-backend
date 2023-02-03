@@ -1,5 +1,5 @@
 import { AuthenticationError, UserInputError } from "apollo-server-core";
-import { DeleteClient } from "../../../src/domain/useCases/delete-client";
+import { DeleteClient } from "../../../src/domain/useCases/client/delete-client";
 import { DeleteClientController } from "../../../src/presentation/controllers/client/delete-client";
 
 describe("DeleteClientController", () => {

@@ -1,5 +1,5 @@
 import { AuthenticationError } from "apollo-server-core";
-import { GetClients } from "../../../domain/useCases/get-clients";
+import { GetClients } from "../../../domain/useCases/client/get-clients";
 import { Context, Contoller, Data } from "../../protocols/controller";
 
 export class GetClientsController implements Contoller {
