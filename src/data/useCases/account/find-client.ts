@@ -12,10 +12,11 @@ export class FindAccount implements FindAccountType {
     if (!accountExist._id) {
       return;
     }
-    const decryptedPassword = await this.bcryptAdapter.decrypt(
+    const decryptedPassword = await this.bcryptAdapter.compare(
+      password,
       accountExist.password
     );
-    if (password !== decryptedPassword) {
+    if (!decryptedPassword) {
       return;
     }
 
