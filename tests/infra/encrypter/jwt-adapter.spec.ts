@@ -1,4 +1,4 @@
-import { jwt, JWTAdapter } from "../../../src/infra/encrypter/jwt";
+import { jwt, JWTAdapter } from "../../../src/infra/encrypter/jwt-adapter";
 import { config } from "dotenv";
 config();
 describe("JWT adapter", () => {
@@ -7,6 +7,7 @@ describe("JWT adapter", () => {
       sut: new JWTAdapter(),
     };
   };
+
   test("should call sign method with correct value", async () => {
     const { sut } = makeSut();
     const spy = jest.spyOn(jwt, "sign");
@@ -32,5 +33,13 @@ describe("JWT adapter", () => {
     expect(async () => {
       await sut.encrypt("any_string");
     }).rejects.toThrow(new Error());
+  });
+  test("should call verify method with correct value", async () => {
+    const { sut } = makeSut();
+    const spy = jest.spyOn(jwt, "verify").mockImplementationOnce(() => {
+      return { _id: "any_id" };
+    });
+    await sut.decrypt("any_jwt");
+    expect(spy).toHaveBeenCalledWith("any_jwt", process.env.JWT_SECRET);
   });
 });
