@@ -9,7 +9,7 @@ export class FindAccount implements FindAccountType {
   ) {}
   async find(username: string, password: string): Promise<void | Account> {
     const accountExist = await this.findAccountRepository.find(username);
-    if (!accountExist._id) {
+    if (!accountExist?._id) {
       return;
     }
     const decryptedPassword = await this.bcryptAdapter.compare(
