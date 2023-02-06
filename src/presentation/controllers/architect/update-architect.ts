@@ -1,4 +1,4 @@
-import { AuthenticationError } from "apollo-server-core";
+import { AuthenticationError, UserInputError } from "apollo-server-core";
 import { FindArchitect } from "../../../domain/useCases/architect/find-architect";
 import { UpdateArchitect } from "../../../domain/useCases/architect/update-architect";
 import { Context, Contoller, Data } from "../../protocols/controller";
@@ -35,5 +35,8 @@ export class UpdateArchitectController implements Contoller {
       }
     }
     const isValidDTO = await this.validator.validate(createArchitectDTO);
+    if (isValidDTO.errors) {
+      throw new UserInputError(isValidDTO.errors);
+    }
   }
 }
