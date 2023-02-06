@@ -28,7 +28,4 @@ export class CreateArchitectDTO {
   @IsDefined()
   @ValidateIf((e) => e === "")
   bankInfo: string;
-  @IsDefined()
-  @ValidateIf((e) => e === "")
-  _id: string;
 }
