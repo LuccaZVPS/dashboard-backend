@@ -21,5 +21,7 @@ export class DeleteArchitectController implements Contoller {
     if (isValidDTO.errors) {
       throw new UserInputError(isValidDTO.errors);
     }
+    await this.deleteArchitect.delete(deleteArchitectDTO._id);
+    return true;
   }
 }
