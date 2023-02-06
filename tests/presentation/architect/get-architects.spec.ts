@@ -38,4 +38,31 @@ describe("GetArchitects Controller", () => {
       await sut.handle("", { data: "" }, { userId: "" });
     }).rejects.toThrow(new UserInputError("must be logged in"));
   });
+  test("should return the list returned by create method", async () => {
+    const { sut } = makeSut();
+    const response = await sut.handle("", { data: "" }, { userId: "any" });
+    expect(response).toEqual([
+      {
+        _id: "any_id",
+        name: "any",
+        email: "any",
+        address: "any",
+        number: "any",
+        instagram: "any",
+        observations: "any",
+        sampleDate: "any",
+        catalog: "any",
+        bankInfo: "any",
+      },
+    ]);
+  });
+  test("should throws if create method throws", () => {
+    const { sut, getArchitectsStub } = makeSut();
+    jest.spyOn(getArchitectsStub, "get").mockImplementationOnce(() => {
+      throw new Error();
+    });
+    expect(async () => {
+      await sut.handle("", { data: "" }, { userId: "" });
+    }).rejects.toThrow();
+  });
 });
