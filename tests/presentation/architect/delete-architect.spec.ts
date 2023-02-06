@@ -1,4 +1,4 @@
-import { AuthenticationError } from "apollo-server-core";
+import { AuthenticationError, UserInputError } from "apollo-server-core";
 import { DeleteArchitect } from "../../../src/domain/useCases/architect/delete-architect";
 import { DeleteArchitectController } from "../../../src/presentation/controllers/architect/delete-architect";
 import {
@@ -43,5 +43,14 @@ describe("DeleteArchitect Controller", () => {
     const spy = jest.spyOn(validatorStub, "validate");
     await sut.handle("", { data: { _id: "any_id" } }, { userId: "any_id" });
     expect(spy).toHaveBeenCalledWith({ _id: "any_id" });
+  });
+  test("should return user input error if validate method returns errors messages", async () => {
+    const { sut, validatorStub } = makeSut();
+    jest.spyOn(validatorStub, "validate").mockImplementationOnce(async () => {
+      return { errors: "any_errors" };
+    });
+    expect(async () => {
+      await sut.handle("", { data: { _id: "any_id" } }, { userId: "any_id" });
+    }).rejects.toThrow(new UserInputError("any_errors"));
   });
 });
