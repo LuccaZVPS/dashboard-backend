@@ -1,20 +1,28 @@
-import { IsString } from "class-validator";
+import { IsDefined, ValidateIf } from "class-validator";
 
 export class CreateClientDTO {
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   name: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   email: string;
-  @IsString()
-  addres: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
+  address: string;
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   number: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   instagram: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   indication: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   aquisitions: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   observations: string;
 }

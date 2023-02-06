@@ -1,23 +1,31 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsDefined, ValidateIf } from "class-validator";
 
 export class UpdateClientDTO {
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   name: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   email: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   addres: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   number: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   instagram: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   indication: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   aquisitions: string;
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   observations: string;
-  @IsNotEmpty()
-  @IsString()
+  @IsDefined()
+  @ValidateIf((e) => e === "")
   _id: string;
 }
