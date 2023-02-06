@@ -9,5 +9,7 @@ export class GetArchitectsController implements Contoller {
     if (!userId) {
       throw new AuthenticationError("must be logged in");
     }
+    const architects = await this.getArchitects.get();
+    return architects;
   }
 }
