@@ -77,4 +77,17 @@ describe("UpdateArchitect controller", () => {
     );
     expect(spy).toBeCalledWith({ ...updateArchitectMockDTO });
   });
+  test("should ", () => {
+    const { sut, validatorStub } = makeSut();
+    jest.spyOn(validatorStub, "validate").mockImplementationOnce(async () => {
+      return { errors: "any_errors" };
+    });
+    expect(async () => {
+      await sut.handle(
+        "",
+        { data: { ...updateArchitectMockDTO } },
+        { userId: "any" }
+      );
+    }).rejects.toThrow(new AuthenticationError("any_errors"));
+  });
 });
