@@ -1,4 +1,4 @@
-import { AuthenticationError } from "apollo-server-core";
+import { AuthenticationError, UserInputError } from "apollo-server-core";
 import { DeleteArchitect } from "../../../domain/useCases/architect/delete-architect";
 import { Context, Contoller, Data } from "../../protocols/controller";
 import { DTOValidator } from "../../protocols/DTO-validator";
@@ -18,5 +18,8 @@ export class DeleteArchitectController implements Contoller {
       deleteArchitectDTO._id = data?._id;
     }
     const isValidDTO = await this.validator.validate(deleteArchitectDTO);
+    if (isValidDTO.errors) {
+      throw new UserInputError(isValidDTO.errors);
+    }
   }
 }
