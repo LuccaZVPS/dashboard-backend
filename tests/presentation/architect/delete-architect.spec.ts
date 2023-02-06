@@ -53,4 +53,19 @@ describe("DeleteArchitect Controller", () => {
       await sut.handle("", { data: { _id: "any_id" } }, { userId: "any_id" });
     }).rejects.toThrow(new UserInputError("any_errors"));
   });
+  test("should call delete method with correct value", async () => {
+    const { sut, deleteArchitectStub } = makeSut();
+    const spy = jest.spyOn(deleteArchitectStub, "delete");
+    await sut.handle("", { data: { _id: "any_id" } }, { userId: "any_id" });
+    expect(spy).toHaveBeenCalledWith("any_id");
+  });
+  test("should return true", async () => {
+    const { sut } = makeSut();
+    const isDeleted = await sut.handle(
+      "",
+      { data: { _id: "any_id" } },
+      { userId: "any_id" }
+    );
+    expect(isDeleted).toBe(true);
+  });
 });
