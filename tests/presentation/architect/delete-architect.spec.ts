@@ -1,8 +1,20 @@
 import { AuthenticationError } from "apollo-server-core";
 import { DeleteArchitect } from "../../../src/domain/useCases/architect/delete-architect";
 import { DeleteArchitectController } from "../../../src/presentation/controllers/architect/delete-architect";
+import {
+  DTOValidator,
+  error,
+} from "../../../src/presentation/protocols/DTO-validator";
 
 describe("DeleteArchitect Controller", () => {
+  const makeValidatorStub = () => {
+    class ValidatorStub implements DTOValidator {
+      async validate(classModel: any): Promise<error> {
+        return { errors: "" };
+      }
+    }
+    return new ValidatorStub();
+  };
   const makeDeleteArchitectStub = () => {
     class DeleteArchitectStub implements DeleteArchitect {
       async delete(_id: string): Promise<void> {
@@ -13,9 +25,11 @@ describe("DeleteArchitect Controller", () => {
   };
   const makeSut = () => {
     const deleteArchitectStub = makeDeleteArchitectStub();
+    const validatorStub = makeValidatorStub();
     return {
+      validatorStub,
       deleteArchitectStub,
-      sut: new DeleteArchitectController(deleteArchitectStub),
+      sut: new DeleteArchitectController(deleteArchitectStub, validatorStub),
     };
   };
   test("should throws auth error if no userId if provided by context", () => {
@@ -23,5 +37,11 @@ describe("DeleteArchitect Controller", () => {
     expect(async () => {
       await sut.handle("", { data: "" }, { userId: "" });
     }).rejects.toThrow(new AuthenticationError("must be logged in"));
+  });
+  test("should call validator with correct value", async () => {
+    const { sut, validatorStub } = makeSut();
+    const spy = jest.spyOn(validatorStub, "validate");
+    await sut.handle("", { data: { _id: "any_id" } }, { userId: "any_id" });
+    expect(spy).toHaveBeenCalledWith({ _id: "any_id" });
   });
 });
