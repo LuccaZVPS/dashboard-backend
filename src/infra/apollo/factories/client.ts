@@ -13,25 +13,35 @@ import { validators } from "../../validators/class-validator";
 //Create Client Resolver
 const validator = new validators.Validator();
 const clientRepository = new ClientRepository();
-const createClient = new CreateClient(clientRepository);
-export const createClientResolver = new CreateClientController(
-  validator,
-  createClient
-).handle;
+export const makeCreateClientController = async (_, __, ___) => {
+  const createClient = new CreateClient(clientRepository);
+  return await new CreateClientController(validator, createClient).handle(
+    _,
+    __,
+    ___
+  );
+};
 //Get Clients Resolver
-const getClients = new GetClients(clientRepository);
-export const getClientsResolver = new GetClientsController(getClients).handle;
+export const makeGetClientsController = async (_, __, ___) => {
+  const getClients = new GetClients(clientRepository);
+  return await new GetClientsController(getClients).handle(_, __, ___);
+};
 //Delete Client Resolver
-const deleteClient = new DeleteClient(clientRepository);
-export const deleteClientResolver = new DeleteClientController(
-  deleteClient,
-  validator
-).handle;
+export const makeDeleteClientController = async (_, __, ___) => {
+  const deleteClient = new DeleteClient(clientRepository);
+  return await new DeleteClientController(deleteClient, validator).handle(
+    _,
+    __,
+    ___
+  );
+};
 //Update Client Resolver
-const updateClient = new UpdateClient(clientRepository);
-const findClient = new FindClient(clientRepository);
-export const updateClientResolver = new UpdateClientController(
-  validator,
-  findClient,
-  updateClient
-).handle;
+export const makeUpdateClientControlller = async (_, __, ___) => {
+  const updateClient = new UpdateClient(clientRepository);
+  const findClient = new FindClient(clientRepository);
+  return new UpdateClientController(validator, findClient, updateClient).handle(
+    _,
+    __,
+    ___
+  );
+};
