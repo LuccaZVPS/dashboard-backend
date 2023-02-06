@@ -67,4 +67,14 @@ describe("UpdateArchitect controller", () => {
       await sut.handle("", { data: "" }, { userId: "" });
     }).rejects.toThrow(new AuthenticationError("must be logged in"));
   });
+  test("should call validate method with correct values", async () => {
+    const { sut, validatorStub } = makeSut();
+    const spy = jest.spyOn(validatorStub, "validate");
+    await sut.handle(
+      "",
+      { data: { ...updateArchitectMockDTO } },
+      { userId: "any_id" }
+    );
+    expect(spy).toBeCalledWith({ ...updateArchitectMockDTO });
+  });
 });
