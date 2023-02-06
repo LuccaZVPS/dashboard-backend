@@ -3,7 +3,7 @@ import { Document } from "mongoose";
 export interface Client {
   name: string;
   email: string;
-  addres: string;
+  address: string;
   number: string;
   instagram: string;
   indication: string;

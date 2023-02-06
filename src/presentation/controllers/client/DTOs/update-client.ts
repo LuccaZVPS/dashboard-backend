@@ -9,7 +9,7 @@ export class UpdateClientDTO {
   email: string;
   @IsDefined()
   @ValidateIf((e) => e === "")
-  addres: string;
+  address: string;
   @IsDefined()
   @ValidateIf((e) => e === "")
   number: string;

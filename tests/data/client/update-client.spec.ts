@@ -12,7 +12,7 @@ describe("Update client use case", () => {
     observations: "any_observations",
     aquisitions: "any_aquisitions",
     indication: "any_indication",
-    addres: "any_adress",
+    address: "any_adress",
     number: "any_number",
   };
   const updatedClient = {
@@ -23,7 +23,7 @@ describe("Update client use case", () => {
     observations: "any_observations",
     aquisitions: "any_aquisitions",
     indication: "updated_indication",
-    addres: "any_adress",
+    address: "any_adress",
     number: "any_number",
   };
   const makeUpdateClientRepositoryStub = () => {

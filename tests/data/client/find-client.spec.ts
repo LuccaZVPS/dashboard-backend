@@ -11,7 +11,7 @@ describe("FindClient use case", () => {
     observations: "any_observations",
     aquisitions: "any_aquisitions",
     indication: "any_indication",
-    addres: "any_adress",
+    address: "any_adress",
     number: "any_number",
   };
   const makeFindClientRepository = () => {
