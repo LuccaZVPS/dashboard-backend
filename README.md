@@ -50,7 +50,7 @@ bankInfo: string;
 
 <h2>Queries</h2>
 <h3>Account</h3>
-<h4>Login. Se as credenciais estiverem corretas, um cookie http-only será criado para armazenar token um JWT no navegador do usuário.</h4>
+<h4>Login. Se as credenciais estiverem corretas, um cookie http-only será criado para armazenar um token JWT no navegador do usuário.</h4>
 
 ```javascript
 mutation LOGIN($email: String!, $password: String!) {
