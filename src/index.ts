@@ -1,5 +1,3 @@
-import { apolloServer } from "./infra/apollo";
+import { main } from "./infra/apollo";
 
-apolloServer.listen(8000).then(() => {
-  console.log("Server is on!");
-});
+main().then();
