@@ -27,7 +27,7 @@ export class ClientRepository
     throw new Error();
   }
   async get(): Promise<Client[]> {
-    const clients = await clientModel.find();
+    const clients = await clientModel.find().sort({ name: "asc" });
     return clients as unknown as Client[];
   }
   async delete(_id: string): Promise<boolean> {

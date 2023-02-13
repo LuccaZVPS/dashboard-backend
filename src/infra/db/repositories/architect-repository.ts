@@ -17,7 +17,9 @@ export class ArchitectRepository
     UpdateArchitectRepository
 {
   async get(): Promise<Architect[]> {
-    return await architectModel.find();
+    return (await architectModel
+      .find()
+      .sort({ name: "asc" })) as unknown as Architect[];
   }
   async create(architect: CreateArchitectDTO): Promise<Architect> {
     const createdArchitect = await architectModel.create(architect);
